@@ -28,6 +28,22 @@ router.get('/posts/:post', function(req, res) {
   });
 });
 
+/* EDIT a post */
+router.put('/posts/:post', function(req, res, next) {
+  Post.findByIdAndUpdate(req.params.post, req.body, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
+/* DELETE a post */
+router.delete('/posts/:post', function(req, res, next) {
+  Post.findByIdAndRemove(req.params.post, req.body, function (err, post) {
+    if (err) return next(err);
+    res.json(post);
+  });
+});
+
 /* POST a post */
 router.post('/posts', function(req, res, next) {
   var post = new Post(req.body);
@@ -60,6 +76,14 @@ router.get('/posts/:post/comments', function(req, res, next) {
 /* GET a single comment */
 router.get('/posts/:post/comments/:comment', function(req, res) {
   res.json(req.comment);
+});
+
+/* DELETE a comment */
+router.delete('/posts/:post/comments/:comment', function(req, res, next) {
+  Comment.findByIdAndRemove(req.params.comment, req.body, function (err, comment) {
+    if (err) return next(err);
+    res.json(comment);
+  });
 });
 
 /* POST a comment */
